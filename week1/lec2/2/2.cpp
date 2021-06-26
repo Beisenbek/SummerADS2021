@@ -4,9 +4,9 @@ using  namespace  std;
 
 
 struct node{
-    int val;
+    char val;
     node * next;
-    node(int x):val(x),next(NULL){}
+    node(char x):val(x),next(NULL){}
 };
 
 struct my_stack{
@@ -20,7 +20,7 @@ public:
         sz = 0;
     }
 
-    void push(int x) {
+    void push(char x) {
         node *newNode = new node(x);
         if (head == NULL) {
             head = newNode;
@@ -31,8 +31,8 @@ public:
         sz++;
     }
 
-    int top(){
-        if(head == NULL) return INT_MIN;
+    char top(){
+        if(head == NULL) return '!';
         return head->val;
     }
 
@@ -57,13 +57,27 @@ int main() {
 
     my_stack *  st = new my_stack();
 
-    for(int i = 0; i < 10; ++i){
-        st->push(i + 1);
+    string str;
+    cin >> str;
+    bool ok = true;
+
+    for(int i = 0; i < str.size(); ++i){
+       if(str[i] == '('){
+           st->push('(');
+       }else if(str[i] == ')'){
+           if(!st->isEmpty()){
+               st->pop();
+           }else{
+               ok = false;
+               break;
+           }
+       }
     }
 
-    while(!st->isEmpty()){
-        cout << st->top() << " ";
-        st->pop();
+    if(ok && st->isEmpty()){
+        cout << "OK";
+    }else{
+        cout << "NO";
     }
 
     return 0;
